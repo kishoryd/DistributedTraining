@@ -4,7 +4,6 @@
 #SBATCH --ntasks=1               # total number of tasks across all nodes
 #SBATCH --cpus-per-task=1        # cpu-cores per task (>1 if multi-threaded tasks)
 #SBATCH --partition=gpu          # Specify GPU partition for GPU Nodes
-#SBATCH --reservation=SCA        # Reservation incase of urgent requirement
 #SBATCH --gres=gpu:1             # number of gpus per node
 #SBATCH --output=logs_%j.out     # output logfile name
 #SBATCH --error=logs_%j.err      # error logfile name

@@ -1,6 +1,6 @@
 # **Deep Learning Training Examples with PyTorch**
 
-This repository provides a comprehensive guide and practical examples for training deep learning models using PyTorch across various parallelism strategies. Whether you are working on single-GPU training or scaling to multi-GPU setups with Distributed Data Parallel (DDP) or Fully Sharded Data Parallel (FSDP), these examples will guide you through the process.
+This repository provides a comprehensive guide and practical examples for training deep learning models using PyTorch across various parallelism strategies. Whether you are working on single-GPU training or scaling to multi-GPU setups with Distributed Data Parallel (DDP)  these examples will guide you through the process.
 
 ---
 
@@ -16,9 +16,6 @@ This repository provides a comprehensive guide and practical examples for traini
 
 ### 02. **Single-GPU Training**
 - Efficiently training models on a single GPU.
-- **Optimizations:**
-  - **DALI**: Efficient data loading using NVIDIA Data Loading Library.
-  - **AMP**: Automatic Mixed Precision for faster training with reduced memory consumption.
 
 ---
 
@@ -39,13 +36,8 @@ This repository provides a comprehensive guide and practical examples for traini
 
 ---
 
-### 05. **Fully Sharded Data Parallel (FSDP) Training**
-- Training large models with memory efficiency using Fully Sharded Data Parallel (FSDP).
-- Fine-tuning large-scale models like **CodeLlama**.
 
----
-
-### 06. **Containerized Training with Enroot and NGC Containers**
+### 05. **Containerized Training with Enroot and NGC Containers**
 - Running PyTorch training using **NVIDIA Enroot** and **NGC Containers** on HPC.
 - **Topics Covered:**
   - Importing and running **NGC PyTorch containers** with Enroot.
@@ -61,7 +53,6 @@ This repository provides a comprehensive guide and practical examples for traini
 - [Data Parallel](https://pytorch.org/docs/stable/generated/torch.nn.DataParallel.html)
 - [Distributed Data Parallel (DDP)](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html)
 - [Hugging Face Transformers](https://huggingface.co/docs/transformers/)
-- [PyTorch FSDP Tutorial](https://pytorch.org/tutorials/intermediate/FSDP_tutorial.html)
 - [NVIDIA Enroot](https://github.com/NVIDIA/enroot)
 - [NGC PyTorch Containers](https://ngc.nvidia.com/catalog/containers/nvidia:pytorch)
 

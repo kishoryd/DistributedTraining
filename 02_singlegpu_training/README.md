@@ -1,7 +1,7 @@
 
-# **Single-GPU Training with PyTorch and DALI**
+# **Single-GPU Training with PyTorch**
 
-Optimizing your script for a **single GPU** is a crucial first step before scaling to multiple GPUs. Inefficient single-GPU code may result in **wasted resources and longer queue times** when running multi-GPU jobs. This guide demonstrates how to train a **CNN on the MNIST dataset** using a **single GPU**, along with optimizations using **NVIDIA DALI** and **Automatic Mixed Precision (AMP)**.
+Optimizing your script for a **single GPU** is a crucial first step before scaling to multiple GPUs. Inefficient single-GPU code may result in **wasted resources and longer queue times** when running multi-GPU jobs. This guide demonstrates how to train a **CNN on the MNIST dataset** using a **single GPU**.
 
 ---
 
@@ -23,8 +23,7 @@ Navigate to the directory and view the content of the training scripts:
 ```bash
 $ ls
 01_mnist_model.py  # Standard PyTorch Training
-02_mnist_dali.py   # PyTorch + NVIDIA DALI for Data Loading
-03_mnist_amp.py    # PyTorch + Automatic Mixed Precision (AMP)
+
 ```
 
 Analyze the code to understand different approaches and optimizations.
@@ -60,59 +59,6 @@ def train(args, model, device, train_loader, optimizer, epoch):
 
 ---
 
-## **Step 4: Optimized Training with NVIDIA DALI (`02_mnist_DALI.py`)**
-[**NVIDIA DALI**](https://docs.nvidia.com/deeplearning/dali/) is a highly optimized data loading and augmentation library that:
-- **Loads images directly on the GPU** to reduce CPU bottlenecks.
-- **Optimizes performance for large datasets**.
-- **Improves training throughput** by parallelizing data preprocessing.
-
-#### **DALI Pipeline for Data Loading**
-```python
-@pipeline_def
-def mnist_pipeline(data_path, batch_size):
-    files, labels = fn.readers.file(file_root=data_path, random_shuffle=True, name="Reader")
-    images = fn.decoders.image(files, device="mixed", output_type=types.GRAY)
-    images = fn.resize(images, resize_x=28, resize_y=28)
-    images = fn.crop_mirror_normalize(images, dtype=types.FLOAT, mean=[0.1307], std=[0.3081])
-    return images, labels
-```
-
-### **Key Differences from Standard PyTorch**
-- **DALI loads images on the GPU**, reducing CPU-to-GPU transfer bottlenecks.  
-- **Faster training throughput**, especially when dataset size increases.
-
----
-
-## **Step 5: Training with Automatic Mixed Precision (AMP) (`03_mnist_AMP.py`)**
-AMP **reduces GPU memory usage and speeds up training** by:
-- **Using FP16 precision** where possible.
-- **Scaling loss to prevent underflows**.
-
-#### **Enable AMP in Training Loop**
-```python
-from torch.cuda.amp import autocast, GradScaler
-
-scaler = GradScaler()
-
-def train(args, model, device, train_loader, optimizer, epoch):
-    model.train()
-    for batch_idx, (data, target) in enumerate(train_loader):
-        data, target = data.to(device), target.to(device)
-        optimizer.zero_grad()
-        
-        with autocast():  # Enables mixed precision
-            output = model(data)
-            loss = F.nll_loss(output, target)
-
-        scaler.scale(loss).backward()
-        scaler.step(optimizer)
-        scaler.update()
-```
-
-### **Key Differences from Standard PyTorch**
-1. **Speeds up training using FP16 precision** where applicable.  
-2.  **Uses `autocast()` to automatically switch between FP16 and FP32.**  
-3. **Prevents underflow using `GradScaler()`.**  
 
 ---
 
@@ -205,8 +151,7 @@ $ pip install scikit-learn
 | **Configuration** | **Throughput (images/sec) 8 Threads** | **Total Time (s) - 8 Threads** |
 |------------------|------------------------|----------------|
 | **Standard PyTorch** (01_mnist_model.py) | ? | ? |
-| **DALI Optimized** (02_mnist_dali.py) | ? | ? |
-| **AMP Enabled** (03_mnist_amp.py) | ? | ? |
+
 
 _Note results after running the experiments._
 
@@ -214,8 +159,6 @@ _Note results after running the experiments._
 
 ## **Summary**
 - **Standard PyTorch training is the baseline**.
-- **DALI optimizes data loading, improving training speed**.
-- **AMP reduces memory usage and accelerates training**.
 - **Throughput and total training time should be analyzed**.
 - **Efficient single-GPU training is necessary before scaling to multiple GPUs**.
 
