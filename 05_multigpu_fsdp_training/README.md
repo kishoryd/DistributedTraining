@@ -7,7 +7,7 @@ FSDP **efficiently shards model parameters, gradients, and optimizer states** ac
 
 ---
 
-## **Step 1: Key Changes for FSDP**
+# **Step 1: Key Changes for FSDP**
 
 ### ** Why Use FSDP Instead of DDP?**
 | Feature            | Data Parallel (DP) | Distributed Data Parallel (DDP) | Fully Sharded Data Parallel (FSDP) |
