@@ -9,7 +9,7 @@ FSDP **efficiently shards model parameters, gradients, and optimizer states** ac
 
 ## **Step 1: Key Changes for FSDP**
 
-Why Use FSDP Instead of DDP?
+## Why Use FSDP Instead of DDP?
 | Feature            | Data Parallel (DP) | Distributed Data Parallel (DDP) | Fully Sharded Data Parallel (FSDP) |
 |--------------------|-------------------|---------------------------------|------------------------------------|
 | **Memory Usage**   | High              | Medium                          | Low (Parameters, Gradients, and Optimizer are sharded) |
@@ -19,12 +19,12 @@ Why Use FSDP Instead of DDP?
 
 ---
 
-Step 2: Training Script for FSDP
+## Step 2: Training Script for FSDP
 
 The FSDP training script (`slurm_submit.py`) includes all necessary configurations.  
 Key sections include:
 
-** Initialize Distributed Training **
+## Initialize Distributed Training
 ```python
 torch.distributed.init_process_group(backend="nccl")
 torch.cuda.set_device(torch.distributed.get_rank())
