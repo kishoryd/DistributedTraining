@@ -31,7 +31,7 @@ torch.cuda.set_device(torch.distributed.get_rank())
 device = torch.cuda.current_device()
 ```
 
-### ** Fully Sharded Data Parallel (FSDP)**
+### Fully Sharded Data Parallel (FSDP)
 ```python
 from torch.distributed.fsdp import FullyShardedDataParallel as FSDP
 
@@ -39,7 +39,7 @@ from torch.distributed.fsdp import FullyShardedDataParallel as FSDP
 model = FSDP(model, device_id=device)
 ```
 
-### ** Optional: Use Layer-Wise Sharding Policy**
+### Optional: Use Layer-Wise Sharding Policy
 ```python
 from torch.distributed.fsdp.wrap import lambda_auto_wrap_policy
 import functools
@@ -53,7 +53,7 @@ auto_wrap_policy = functools.partial(lambda_auto_wrap_policy, lambda_fn=layer_po
 model = FSDP(model, device_id=device, auto_wrap_policy=auto_wrap_policy)
 ```
 
-### ** Gradient Accumulation & Mixed Precision**
+### Gradient Accumulation & Mixed Precision
 ```python
 from torch.cuda.amp import autocast, GradScaler
 
@@ -65,7 +65,7 @@ with autocast(dtype=torch.bfloat16):
 
 ---
 
-## **Step 3: FSDP Slurm Batch Script**
+## Step 3: FSDP Slurm Batch Script
 
 Create a Slurm submission script (`slurm_submit.sh`) to configure and execute the FSDP script:
 
